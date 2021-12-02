@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block titlte %}
+    Login
+
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    <body id="userbody">
+         <div class="container font-weight-bold" id="form">
+    <div class="col-center-block row justify-content-center p-5" >
+    <div class="details" class="col-lg-5 m-5">
+    <div class="center-block " ><h1 class="text-center">Login</h1>
+       </div>
+
+  <p class="text-danger" >{{ msg }}</p>
+        <form class="form-horizontal" method="post" action="{{ url_for("user.login") }}">
+  <div class="form-group">
+    <label for="inputusername" class="col-sm-2 control-label">Username</label>
+    <div class="col-sm-10">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <input type="text" class="form-control" id="inputusername" placeholder="Username" name="username">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword" class="col-sm-2 control-label">Password</label>
+    <div class="col-sm-10">
+      <input type="password" class="form-control" id="inputPassword" placeholder="Password" name="password">
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox"> Remember me
+        </label>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-primary btn-lg btn-block" value="submit">Login in</button>
+    </div>
+  </div>
+</form>
+    </div>
+
+
+    </div>
+    </div>
+</body>
+{% endblock %}

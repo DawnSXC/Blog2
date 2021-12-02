@@ -1,0 +1,74 @@
+{% extends "index.html"%}
+{% block styles %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+    <body {% if user and user.gender==1 %}id="indexbody"{% else %}id="maleindexbody"{% endif %}>
+<div class="container-fluid m-5">
+    <div class="container" class="center-block m-5 p-5" >
+
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            {% if user %}
+     <div class="card text-white" style="width: 18rem; height: 22rem">
+   <img  src={% if user.img %}{{ url_for('static',filename=user.img) }}{% else %}{{ url_for('static',filename='images/icon.jpg')}}{% endif %}  class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title text-white">Usename:  {{ user.username }}</h5>
+    <p class="card-text text-white">Register Time:{{ user.regtime }}</p>
+      <p class="card-text text-white">Email Address: {{ user.email }}</p> </div> </div>
+   {% else %}
+             <div class="card text-white" style="width: 18rem; height: 22rem">
+         <img src="{{ url_for('static',filename='images/icon.jpg')}}" class="card-img-top" alt="...">
+         <div class="card-body">
+             <a href="{{ url_for('user.login')}}" class="btn btn-primary">Login</a></div></div>
+  {% endif %}
+
+            </div>
+
+         <div class="col-lg-8">
+         {% if post %}
+              <div class="blank"></div>
+  <div class="blogs">
+    <ul class="bloglist">
+        {% for post in post %}
+
+                      <li>
+        <div class="arrow_box">
+          <div class="ti"></div>
+          <!--三角形-->
+          <div class="ci"></div>
+          <!--圆形-->
+          <h2 class="title"><a href="{{ url_for('post.detail') }}?pid={{ post.id }}" target="_blank">{{ post.title }}</a></h2>
+          <ul class="textinfo">
+            {% if post.post_img %}<a href="{{ url_for('post.detail') }}?pid={{ post.id }}"><img src={{ url_for('static',filename=post.post_img) }}></a>{% endif %}
+             <p class="text-warning"><em>Author: {{ post.user.username }}</em></p>
+              <p>{{ post.text }}</p>
+          </ul>
+          <ul class="details">
+            <li class="likes"><a href="#">{{ post.like_times }}</a></li>
+            <li class="bi bi-eye-fill"><a href="#">{{ post.browsing_times }}</a></li>
+            <li class="icon-time"><a href="#">{{ post.post_time }}</a></li>
+          </ul>
+        </div>
+        <!--arrow_box end-->
+      </li>
+
+        {% endfor %}
+    </ul>
+    <!--bloglist end-->
+         </div>
+         {% else %}
+             <div class="col-lg-6">
+              <div class="alert alert-warning">
+                There are no such post here yet. Give your opinion right away!
+            </div></div>
+         {% endif %}
+         </div></div>
+</div>
+</body>
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+{% endblock %}

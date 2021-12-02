@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html >
+<head>
+    {% block styles %}
+   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+{% endblock %}
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+
+
+
+<link href="../static/css/css42.css" rel="stylesheet">
+<link href="../static/css/animation.css" rel="stylesheet">
+<link href="../static/css/lrtk.css" rel="stylesheet" />
+<link href="../static/css/view.css" rel="stylesheet" />
+
+    <!-- jQuery and JavaScript Bundle with Popper -->
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- bootstrap.bundle.min.js 用于弹窗、提示、下拉菜单，包含了 popper.min.js -->
+<script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+
+<!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
+
+<script type="text/javascript" src="../static/js/js.js"></script>
+<script type="text/javascript" src="../static/js/modernizr.js"></script>
+
+</head>
+
+<body>
+<div class="text-center"><h1 class="text-warning">My BLOG</h1>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark  ">
+  <a class="navbar-brand" href="#">Thoughts Anytime Bolg</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('index')}}">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('blog')}}">Blog</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+          Category
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{{ url_for('categoryblog',category_id=1) }}">Life</a>
+                <a class="dropdown-item" href="{{ url_for('categoryblog',category_id=2) }}">Apparel</a>
+                <a class="dropdown-item" href="{{ url_for('categoryblog',category_id=3) }}">Makeups</a>
+                <a class="dropdown-item" href="{{ url_for('categoryblog',category_id=4) }}">Education</a>
+                <a class="dropdown-item" href="{{ url_for('categoryblog',category_id=5) }}">Nature</a>
+              <a class="dropdown-item" href="{{ url_for('categoryblog',category_id=6) }}">Technology</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="{{ url_for('blog')}}">ALL</a>
+        </div>
+      </li>
+       {% if user %}
+            <li class="nav-item">
+        <a class="nav-link"href="{{ url_for('user.center',uid=user.id)}}">User Center</a>
+      </li>
+            <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('user.logout')}}">Logout</a>
+      </li>
+           <li class="nav-item">
+        <a class="nav-link disabled">Welcome! {{ user.username }}</a>
+      </li>
+           {% else %}
+                       <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('user.login')}}">Login</a>
+      </li>
+            <li class="nav-item">
+        <a class="nav-link"href="{{ url_for('user.register')}}">Register</a>
+      </li>
+           <li class="nav-item">
+        <a class="nav-link disabled">Welcome!</a>
+      </li>
+
+        {% endif %}
+
+
+    </ul>
+    <form class="form-inline my-2 my-lg-0" action="{{ url_for('post.search')}}" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <input name="search_content" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-white btn-warning my-2 my-sm-0" type="submit" value="submit">Search</button>
+    </form>
+  </div>
+</nav>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+{% block content %}
+
+{% endblock %}
+
+
+<footer>
+  <div class="footer-mid text-center">
+    <p class="text-muted">      Copyright 2021 Design by    <a href="/">Dawn</a> </p>
+  </div>
+</footer>
+<!-- jQuery仿腾讯回顶部和建议 代码开始 -->
+<div id="tbox"> <a id="togbook" href="{{ url_for('suggestion') }}"></a> <a id="gotop" href="javascript:void(0)"></a> </div>
+<!-- 代码结束 --> </body>
+</html>
+
+

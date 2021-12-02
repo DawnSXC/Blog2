@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% block title %}
+    Post Detail
+{% endblock %}
+{% block styles %}
+    {{ super() }}
+{% endblock %}
+
+
+
+{% block content %}
+<script>
+    $(function(){
+        $('.good').click(function (){
+            let $this = $(this)
+            $.get('{{ url_for('post.like') }}',{pid:{{post.id}}},function(data){
+            $this.next('span').text(data.likenum)
+            })
+
+        });
+        $('.bad').click(function (){
+            let $this = $(this)
+            $.get('{{ url_for('post.dislike') }}',{pid:{{post.id}}},function(data){
+            $this.next('span').text(data.dislikenum)
+            })
+
+        });
+    })
+</script>
+    <body id="blog">
+  <div class="container-fluid p-5">
+        <div class="container">
+            <div class="details  text-white">
+  <div class="text-center ">
+  <div>
+
+          <h1><strong>{{ post.title }}</strong></h1>
+
+    <!--author-->
+     <ul> <li><a href="{{ url_for('displayuser',user_id=post.user.id)}}"><img id="iframeSvg" src="../static/images/auth.svg"><em>Author: {{ post.user.username }}</em></a></li>
+     <!--time-->
+            <li ><a href="#"><img style="width: 25px;height: 25px" id="iframeSvg" src="../static/images/time.svg">Post Time: {{ post.post_time }}</a></li>
+      <!--browsing times-->
+      <li ><img style="width: 25px;height: 25px" id="iframeSvg" src="../static/images/browsingt.svg">Browsing Times:<span> {{ post.browsing_times }}</span></li>
+
+      <!--collect-->{% if user %}
+    <li class="svgicon">   <a href="{{ url_for('post.collect') }}?pid={{ post.id }}"> <svg width="25" height="20" xmlns="http://www.w3.org/2000/svg">
+ <g id="Layer_1">
+  <title>Layer 1</title>
+  <path stroke="#000" id="svg_1" d="m2.27849,6.38847l8.40331,0l2.59669,-9.16721l2.59669,9.16721l8.40331,0l-6.79841,5.66558l2.59682,9.16721l-6.79841,-5.66574l-6.79841,5.66574l2.59682,-9.16721l-6.79841,-5.66558z" fill="#FFFA8D"/>
+ </g>
+</svg>COLLECT</a></li>{% endif %}
+           <!--dislike-->
+         <li class="svgicon" >   <span class="bad"><img  style="width: 20px;height: 20px" id="iframeSvg" src="../static/images/dislike.svg">Dislike:</span><span> {{ post.dislike_times }}</span></li>
+      <!--like-->
+          <li class="svgicon">
+
+                <svg class="good" width="25" height="20" xmlns="http://www.w3.org/2000/svg">
+ <g id="Layer_1">
+  <title>Layer 1</title>
+  <path stroke="#000" id="svg_2" d="m12.30123,7.02707c4.3291,-9.45041 21.29065,0 0,12.15052c-21.29065,-12.15052 -4.3291,-21.60093 0,-12.15052z" fill="#FFAAB8"/>
+ </g>
+                </svg>Like:<span>{{ post.like_times }}</span></li>
+          </ul>
+  </div>
+  <div class="text-left">
+    <h6>{{ post.text }}</h6>
+  </div>
+</div>
+            </div>
+        <div class="details">
+        <div class="text-center"><h4 class="text-warning"><em>User Comments</em></h4></div>
+ <form action="{{ url_for('post.comment') }}" method="post">
+     <p class="text-danger" >{{ msg }}</p>
+    <input type="hidden" name="pid" value="{{ post.id }}">
+     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <div class="form-group text-center">
+    <label for="exampleInputComment" class="col-sm-2 control-label text-white ">Comment</label>
+
+     <textarea rows="8" class="form-control" name="comment" id="exampleInputComment" placeholder="Comment"></textarea>
+      <br><br><br>
+      <button type="submit" class="btn btn-primary " >Submit</button>
+  </div>
+</form>
+
+              {% if post.post_comments %}
+                {% for comment in post.post_comments %}
+            <div class="row m-2">
+  <img class="col-lg-2 img-circle" class="img" src={% if comment.user.img %}{{ url_for('static',filename=comment.user.img) }}{% else %}{{ url_for('static',filename='images/icon.jpg')}}{% endif %}  alt="...">
+
+         <div class="col-lg-10">  <h5 class="text-white">Usename:{{ comment.user.username }}</h5>
+             <p class="text-white">{{ comment.comment }}</p>
+            {% if user and comment.user_id == user.id %} <p style="float: bottom;float: left" class="text-white"><a href="{{ url_for('post.deletecomment') }}?cid={{ comment.id }}" >Dlete my comment</a></p>{% endif %}
+             <li style="float: bottom;float: right" class="icon-time text-white">Comment Time:{{ comment.comment_time }}</li>
+         </div>
+            </div>
+                    <br>
+                    <br>
+
+                {% endfor %}
+            {% else %}
+            <div class="alert alert-warning">
+                There are no comments here yet. Give your opinion right away!
+            </div>
+            {% endif %}
+            </div>
+        </div>
+        </div>
+  </div>
+    </body>
+
+
+
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+
+
+
+{% endblock %}

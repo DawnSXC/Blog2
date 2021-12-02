@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}
+    Register
+{% endblock %}
+{% block styles %}
+    {{ super() }}
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+{% endblock %}
+
+
+
+
+
+{% block content %}
+    <body id="userbody" >
+    <div class="container-fluid" >
+
+
+<!-- Stack the columns on mobile by making one full-width and the other half-width -->
+
+
+<!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
+<div class="row m-1 ">
+  <div class="col-xs-6 col-md-4"></div>
+  <div class="col-xs-6 col-md-4 details"> <form class="text-warning" method="post" action="{{ url_for('user.register') }}">
+ <div class="text-center">
+                    <h4>User Register</h4>
+                </div>
+                      {{ form.hidden_tag() }}
+        <p class="text-white">
+            {{ form.username.label }}
+            {{ form.username(class="form-control text-success") }}
+            {% for error in form.username.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+     <p class="text-white">
+            {{ form.phone.label }}
+            {{ form.phone(class="form-control text-success") }}
+            {% for error in form.phone.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p class="text-white">
+            {{ form.email.label }}
+            {{ form.email(class="form-control text-success") }}
+            {% for error in form.email.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p class="text-white">
+            {{ form.Gender.label }}
+            {{ form.Gender}}
+            {% for error in form.Gender.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p class="text-white">
+            {{ form.password.label }}
+            {{ form.password(class="form-control text-success") }}
+            {% for error in form.password.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p class="text-white">
+            {{ form.password2.label }}
+            {{ form.password2(class="form-control text-success")  }}
+            {% for error in form.password2.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+
+
+            <p>{{ form.submit() }}</p>
+     </form>
+</div>
+        <div class="col-xs-6 col-md-4"></div>
+    </div>
+</div>
+
+
+    </body>
+{% endblock %}

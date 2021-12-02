@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% block title %}
+    Search Result
+{% endblock %}
+{% block styles %}
+    {{ super() }}
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+   <html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>js 百度 geolocation 定位当前城市</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+    <!--Baidu API-->
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=P8GBczaYjLwtZv9AZAxafKS994lVxinR"></script>
+    <script type="text/javascript">
+
+        var geolocation = new BMap.Geolocation();
+        var gc = new BMap.Geocoder();
+
+        geolocation.getCurrentPosition(function (r) {
+            alert("Can we obtain your location in order to solve your problem in time?")
+            if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+                var pt = r.point;
+                gc.getLocation(pt, function (rs) {
+                    var addComp = rs.addressComponents;
+                    alert(addComp.province + addComp.city + addComp.district);
+                return addComp.city
+                });
+            }
+            else {
+
+                switch (this.getStatus()) {
+                    case 2:
+                        alert('Unknown location result. Failed to obtain location.');
+                        break;
+                    case 3:
+                        alert('Navigation result is unknown. Failed to obtain location.');
+                        break;
+                    case 4:
+                        alert('Illegal key failed to obtain location.');
+                        break;
+                    case 5:
+                        alert('Sorry, Illegal request location Failed to obtain location.');
+                        break;
+                    case 6:
+                        alert('Sorry, there is currently no permission. Failed to obtain location.');
+                        break;
+                    case 7:
+                        alert('Sorry, the service is unavailable. Failed to obtain location.');
+                        break;
+                    case 8:
+                        alert('Sorry, the request timed out. Failed to obtain the location.');
+                        break;
+
+                }
+            }
+
+        },
+            { enableHighAccuracy: true }
+        )
+
+    </script>
+
+</head>
+
+<body id="maleindexbody">
+<div class="container-fluid p-5">
+    <div class="container details ">
+        <div class="text-center"><h2 class="text-warning">Complaints and suggestions</h2></div>
+        <div class="row p-5">
+
+            <div class="col-md-6 ">
+<p class="text-danger" >{{ msg }}</p>
+                <form class="form-horizontal" action="{{ url_for('suggestion') }}" method="post">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                     <div class="form-group">
+    <label for="inputuser" >Username</label>
+    <div class="col-sm-10">
+      <input name ="name" type="text" class="form-control" id="inputuser" placeholder="Username">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3">Contact Email</label>
+    <div class="col-sm-10">
+      <input name="email" type="email" class="form-control" id="inputEmail3" placeholder="Email">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputTitle" >Problem or suggestion Title</label>
+    <div class="col-sm-10">
+      <input name="title" type="text" class="form-control" id="inputTitle" placeholder="Title">
+    </div>
+  </div>
+  <div class="form-group">
+      <label>Problem or suggestion Title Description</label>
+    <div class="col-sm-10">
+     <textarea name="des" class="form-control" row="5"></textarea>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-8 col-sm-10">
+      <button type="submit" class="btn btn-warning" value="submit">Submit</button>
+    </div>
+  </div>
+</form>
+            </div>
+
+
+            <div class="col-md-6 ">
+                <div id="app1">
+			<figure class="figure  rounded">
+<a href="#"><img src="../static/images/thanks.png" alt=""></a>
+				<h3>Thank you!</h3>
+			</figure>
+		</div>
+        </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "index.html"%}
+{% block styles %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+    <body {% if user and user.gender==1 %}id="indexbody"{% else %}id="maleindexbody"{% endif %}>
+<div class="container-fluid m-5">
+    <div class="container" >
+<div class="m-5">
+        <ul class="nav nav-tabs m-3 ">
+    <li class="nav-item">
+      <a class="nav-link " href="{{ url_for('user.center')}}">Information</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active text-black" href="#" >Modify Information</a>
+    </li>
+    <li class="nav-item text-center">
+      <a class="nav-link" href="{{ url_for('user.newpassword') }}" >Modify Password</a>
+    </li>
+                         <li class="nav-item">
+      <a class="nav-link" href="{{ url_for('user.collection') }}" >My Collection</a>
+    </li>
+
+  </ul>
+
+    <div class="row">
+        <div class="col-lg-4">
+     <div class="card text-white" style="width: 100%;height: 100% ">
+  <img src={% if user.img %}{{ url_for('static',filename=user.img) }}{% else %}{{ url_for('static',filename='images/icon.jpg')}}{% endif %} class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">{{ user.username }}</h5>
+    <p class="card-text">{{ user.phone }}</p>
+      <p class="card-text">{{ user.email }}</p>
+
+    <a href="{{ url_for('post.newpost',user=g.user) }}" class="btn btn-primary">Publish New Post</a>
+  </div></div></div>
+         <div class="col-lg-8 details" >
+
+<form class="text-white " action="{{url_for('user.information')}}" method="post" enctype="multipart/form-data">
+    <div class="center-block text-center text-warning">
+                 <h2>Modify Information</h2>
+                 <img style="width: 20%;height: 20%" src={% if user.img %}{{ url_for('static',filename=user.img) }}{% else %}{{ url_for('static',filename='images/icon.jpg')}}{% endif %}>
+             </div>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div class="form-group ">
+    <label for="exampleInputusername">Username</label>
+    <input type="text" class="form-control" id="exampleInputusername" name="username" value="{{ user.username }}">
+  </div>
+      <div class="form-group">
+    <label for="exampleInputphone">Phone Number</label>
+    <input type="text" class="form-control" id="exampleInputphone" name="phone" value="{{ user.phone }}">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Email address</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" name="email" value="{{ user.email }}">
+  </div>
+
+  <div class="form-group">
+    <label for="exampleInputFile">File input</label>
+    <input type="file" id="exampleInputFile" name="icon">
+    <p class="help-block"></p>
+  </div>
+
+  <button type="submit" value="submit" class="btn btn-info">Modify</button>
+</form>
+         </div></div>   </div>
+
+    </div>
+</div>
+</body>
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+{% endblock %}

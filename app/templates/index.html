@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}
+    Index
+{% endblock %}
+{% block styles %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+    <body {% if user and user.gender==1 %}id="indexbody"{% else %}id="maleindexbody"{% endif %}>
+<div class="container-fluid">
+    <div class="container">
+
+
+    <h1>Blog</h1>
+        <div class="row">
+            <div class="col-lg-6">
+                <div id="app">
+			<figure class="figure  rounded">
+				<a href="{% if user %}{{ url_for('user.center')}}{% else %}{{ url_for('blog') }}{% endif %}"><img src="../static/images/tour.png" alt=""></a>
+				<h3>Tourist Entrance</h3>
+			</figure>
+		</div>
+            </div>
+            <div class="col-lg-6">
+                <div id="app">
+			<figure class="figure  rounded">
+				<a href="{% if user %}{{ url_for('user.center')}}{% else %}{{ url_for('user.login')}}{% endif %}"><img src="../static/images/post.png" alt=""></a>
+				<h3>User Entrance</h3>
+			</figure>
+		</div>
+            </div>
+
+        </div>
+
+</div>
+ </div>
+    </body>
+
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+
+{% endblock %}
+

@@ -1,0 +1,83 @@
+{% extends "index.html"%}
+{% block styles %}
+    {{ super() }}
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+    <body {% if user and user.gender==1 %}id="indexbody"{% else %}id="maleindexbody"{% endif %}>
+<div class="container-fluid m-5">
+    <div class="container" class="center-block m-5 p-5" >
+<div class="m-5">
+        <ul class="nav nav-tabs ">
+    <li class="nav-item">
+      <a class="nav-link text-black" href="{{ url_for('user.center')}}">Information</a>
+    </li>
+    <li class="nav-item">
+         <a class="nav-link active text-black" href="{{ url_for('user.information')}}" >Modify Information</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#" >Finished Task List</a>
+    </li>
+    <li class="nav-item"><a class="nav-link" href="#">Add a New Task</a></li>
+  </ul>
+    </div>
+
+
+    <div class="row">
+        <div class="col-lg-4">
+     <div class="card text-white" style="width: 18rem; height: 30rem">
+  <img src={% if user.img %}{{ url_for('static',filename=user.img) }}{% else %}{{ url_for('static',filename='images/icon.jpg')}}{% endif %} class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">{{ user.username }}</h5>
+    <p class="card-text">{{ user.phone }}</p>
+      <p class="card-text">{{ user.email }}</p>
+
+
+  </div>
+     </div>
+        </div>
+         <div class="col-lg-8 details" >
+             <form class="form-horizontal text-white" action="{{url_for('post.newpost')}}" method="post" enctype="multipart/form-data">
+                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                 <p class="text-danger" >{{ msg }}</p>
+  <div class="form-group form-group-lg">
+    <label class="col-sm-2 control-label" for="formGroupInputLarge">Title</label>
+    <div class="col-sm-10">
+      <input class="form-control" type="text" id="formGroupInputLarge" name="title" placeholder="Article Title">
+    </div>
+  </div>
+  <div class="form-group form-group-sm">
+    <label class="col-sm-2 control-label" for="formGroupInputSmall">Category</label>
+    <div class="col-sm-10">
+      <select name="category" class="form-control">
+  <option value="1">Technology</option>
+  <option value="2">Life</option>
+  <option value="3">Apparel</option>
+  <option value="4">Makeups</option>
+  <option value="5">Education</option>
+  <option value="6">Nature</option>
+</select>
+    </div>
+  </div> <div class="form-group">
+    <label for="exampleInputFile">Upload Post Images</label>
+    <input type="file" id="exampleInputFile" name="post_img">
+    <p class="help-block"></p>
+  </div>
+                   <div class="form-group form-group-lg">
+    <label class="col-sm-2 control-label" for="formGroupInputLarge">TEXT</label>
+    <div class="col-sm-10">
+       <textarea name="text" id="post3" class="form-control"></textarea>
+    </div>
+  </div>
+<button type="submit" class="btn btn-warning">Submit</button>
+</form>
+
+
+         </div>
+    </div></div>
+</div>
+</body>
+{% endblock %}
