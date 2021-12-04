@@ -9,7 +9,7 @@ from wtforms import csrf
 from app import db, user
 from app.user.forms import RegistrationForm
 from app.user.models import User
-from app.post.models import Post, Comment, Category, Collect
+from app.post.models import Post, Comment,Collect
 from config import Config
 
 post_bp = Blueprint("post", __name__, url_prefix='/post')
